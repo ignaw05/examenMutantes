@@ -2,7 +2,6 @@ package com.mutantes.mutantes.service;
 
 import com.mutantes.mutantes.dto.StatsResponse;
 import com.mutantes.mutantes.repository.DnaRecordRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

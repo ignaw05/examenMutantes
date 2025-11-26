@@ -1,6 +1,5 @@
 package com.mutantes.mutantes.controller;
 
-import com.mutantes.mutantes.dto.DnaRequest;
 import com.mutantes.mutantes.service.MutantService;
 import com.mutantes.mutantes.service.StatsService;
 import org.junit.jupiter.api.Test;
