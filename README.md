@@ -107,7 +107,8 @@ La aplicación iniciará en el puerto **8080**.
 
 Una vez iniciada la aplicación, puedes acceder a la documentación interactiva (Swagger UI) en:
 
-👉 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+👉 **Local:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+👉 **API en Render:** [https://examenmutantes-38gu.onrender.com/swagger-ui.html](https://examenmutantes-38gu.onrender.com/swagger-ui.html)
 
 ### Endpoints Principales
 
