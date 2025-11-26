@@ -31,7 +31,6 @@ public class MutantControllerTest {
     @MockBean
     private StatsService statsService;
 
-
     @Test
     public void testMutantEndpoint_ReturnOk() throws Exception {
         when(mutantService.analyzeDna(any())).thenReturn(true);
@@ -48,7 +47,6 @@ public class MutantControllerTest {
                 .andExpect(status().isOk());
     }
 
-
     @Test
     public void testHumanEndpoint_ReturnForbidden() throws Exception {
         when(mutantService.analyzeDna(any())).thenReturn(false);
@@ -64,7 +62,6 @@ public class MutantControllerTest {
                 .content(dnaJson))
                 .andExpect(status().isForbidden());
     }
-
 
     @Test
     public void testInvalidDna_ReturnBadRequest() throws Exception {
@@ -91,5 +88,42 @@ public class MutantControllerTest {
                 .andExpect(jsonPath("$.count_mutant_dna").exists())
                 .andExpect(jsonPath("$.count_human_dna").exists())
                 .andExpect(jsonPath("$.ratio").exists());
+    }
+
+    @Test
+    public void testDnaHashError_ReturnInternalServerError() throws Exception {
+        when(mutantService.analyzeDna(any())).thenThrow(
+                new com.mutantes.mutantes.exception.DnaHashCalculationException("Hash Error", new RuntimeException()));
+
+        String dnaJson = """
+                {
+                    "dna": ["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
+                }
+                """;
+
+        mockMvc.perform(post("/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(dnaJson))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Hash Error"))
+                .andExpect(jsonPath("$.error").value("Internal Server Error"));
+    }
+
+    @Test
+    public void testGenericError_ReturnInternalServerError() throws Exception {
+        when(mutantService.analyzeDna(any())).thenThrow(new RuntimeException("Unexpected Error"));
+
+        String dnaJson = """
+                {
+                    "dna": ["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
+                }
+                """;
+
+        mockMvc.perform(post("/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(dnaJson))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Ocurrió un error inesperado"))
+                .andExpect(jsonPath("$.error").value("Internal Server Error"));
     }
 }

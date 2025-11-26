@@ -100,7 +100,7 @@ class MutantDetectorTest {
         String[] dna = {};
         assertFalse(mutantDetector.isMutant(dna));
     }
-    
+
 
     @Test
     void testMutantVerticalOnly() {
